@@ -1,0 +1,8 @@
+# Local-testing only — publishes the app port on localhost so you can open it
+# in a browser before wiring up cloudflared. docker compose automatically
+# merges this over docker-compose.yml; delete or don't ship this file for the
+# real deployment (the base file deliberately has no published ports).
+services:
+  app:
+    ports:
+      - "8090:8000"

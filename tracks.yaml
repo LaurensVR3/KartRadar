@@ -1,0 +1,21 @@
+# Hand-configured tracks for booking systems that AREN'T Apex Timing.
+#
+# Every Apex Timing center — including its rental products, private/own-kart
+# products, and any separate calendar.php-based track-day system — is now
+# discovered automatically (see catalog/build_catalog.py + app/browse.py), so
+# nothing needs to be listed here for those anymore. This file exists purely
+# for the day a track using a *different* booking platform gets added.
+#
+# provider: manual | ical
+#   manual needs only booking_url — renders as a link-out with no live data,
+#     useful as a placeholder until a real provider is written for it.
+#   ical needs: ics_url (+ optional event_meaning: busy|available)
+#
+# Example:
+#   - name: "Some Other Track"
+#     note: "Own-kart, direct booking site"
+#     provider: manual
+#     booking: private
+#     booking_url: "https://example.com/book"
+
+tracks: []

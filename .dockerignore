@@ -1,0 +1,9 @@
+data/
+.env
+.git/
+__pycache__/
+*.pyc
+*.png
+Idea.txt
+centers.json
+.claude/

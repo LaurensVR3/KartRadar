@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DAILY_REFRESH_HOUR=${DAILY_REFRESH_HOUR:-0}
+      - DAYS_AHEAD=${DAYS_AHEAD:-28}
+    # No published ports: only cloudflared talks to this, over the internal
+    # compose network — no port-forwarding needed on the host/router.
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on:
+      - app

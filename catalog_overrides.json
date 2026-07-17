@@ -1,0 +1,18 @@
+{
+  "_comment": "Manual corrections for build_catalog.py's kart-signal heuristic. force_include: center IDs that are genuinely karting but whose product names never say the word 'kart' (e.g. UK/IE tracks that just say 'Race'/'GP'/'Timed Session', or ones identified by chassis/engine brand names). force_exclude: center IDs the heuristic wrongly let through. Edit freely as you spot-check the catalog.",
+  "_force_include_reasons": {
+    "134": "ELK Motorsport (UK) - 'Timed Session/Sprint Racing/Solo+Team Endurance' is standard UK indoor kart-track vocabulary",
+    "137": "WhiteRiver Park (IE) - same 'Time-Trial/Grand Prix/Team Endurance Race' taxonomy",
+    "226": "Booosters (AT) - products reference 'SODI', a major go-kart chassis brand",
+    "409": "SB RACEWAY - '6.5 hp race' and '2Drive' are classic rental-kart engine/chassis specs",
+    "501": "Circuit de l'indre (FR) - 'Session Rotax' references Rotax Max, a kart-specific engine brand"
+  },
+  "force_include": [
+    134,
+    137,
+    226,
+    409,
+    501
+  ],
+  "force_exclude": []
+}
