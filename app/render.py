@@ -23,6 +23,10 @@ def render_home(rows: list[dict], days: list[datetime.date], last_checked: str |
         {
             "key": _dk(d), "abbr": d.strftime("%a")[:2], "day": d.day, "mon": d.strftime("%b")[:3],
             "wknd": d.weekday() >= 5, "today": d == today,
+            # Apex Timing's session_booking.php reads its date from a
+            # '?date=' URL param in jQuery UI's 'yy/mm/dd' format — zero-padded,
+            # unlike the `key` above which matches the API's own date-key format.
+            "ymd": d.strftime("%Y/%m/%d"),
         }
         for d in days
     ]
@@ -522,6 +526,14 @@ head.appendChild(hrow);
 
 const rowsById = Object.fromEntries(DATA.map(r => [r.id, r]));
 
+// Only Apex Timing's product-booking flow ("sessions" mode) honours a
+// '?date=' URL param to preselect a day — its own calendar-widget flow
+// ("calendar" mode) and every other provider ignore it, so those keep
+// linking to the plain booking_url instead of a broken deep link.
+function bookingUrlFor(row, dm) {{
+  return row.mode === "sessions" ? `${{row.booking_url}}&date=${{dm.ymd}}` : row.booking_url;
+}}
+
 // A row's price/duration isn't one number — RACB Spa's Senior class alone is
 // €32 (half day) or €50 (full day); Genk's price depends entirely on which
 // class you pick (€52 Mini vs. €72-82 Senior). Show a range across whatever's
@@ -607,7 +619,7 @@ DATA.forEach(row => {{
       td.className = "avail " + base;
       td.title = info.label || "";
       const a = document.createElement("a");
-      a.href = row.booking_url; a.target = "_blank";
+      a.href = bookingUrlFor(row, dm); a.target = "_blank";
       td.appendChild(a);
     }} else {{
       td.className = "closed " + base;
