@@ -53,6 +53,7 @@ async def refresh_all():
         # specific product (see Karting Genk's Track Fee tickets) than a
         # venue that's really closed for 28 straight days.
         fallback_track_id = row.get("calendar_fallback_track_id")
+        fallback_avail = None
         if fallback_track_id and not any(v.get("available") for v in avail.values()):
             try:
                 fallback_track = {"name": row["name"], "mode": "calendar",
@@ -66,6 +67,17 @@ async def refresh_all():
 
         row_out = dict(row)
         row_out["availability"] = avail
+        if avail is fallback_avail:
+            # The product page itself is often just as broken as its
+            # availability check (Karting Genk's Track Fee product pages
+            # 404 outright) — once we're showing calendar-sourced
+            # availability, the click-through has to go to that same
+            # calendar, not the dead product page.
+            row_out["mode"] = "calendar"
+            row_out["booking_url"] = (
+                f"https://www.apex-timing.com/gokarts/calendar.php"
+                f"?center={row['center_id']}&tracks={fallback_track_id}&track={fallback_track_id}"
+            )
         return f"catalog:{row['id']}", row_out
 
     catalog_results = await asyncio.gather(*(refresh_catalog_row(r) for r in rows))
