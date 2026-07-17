@@ -281,6 +281,13 @@ def render_home(rows: list[dict], days: list[datetime.date], last_checked: str |
   .footnote {{
     font-size: 0.7rem; color: var(--muted); margin-top: 14px; line-height: 1.5;
   }}
+
+  .footer-links {{
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem; color: var(--muted); margin-top: 6px; line-height: 1.5;
+  }}
+  .footer-links a {{ color: var(--muted); text-decoration: underline; text-decoration-color: var(--line-strong); }}
+  .footer-links a:hover {{ color: var(--amber-strong); text-decoration-color: var(--amber-strong); }}
 </style>
 </head>
 <body>
@@ -320,6 +327,11 @@ def render_home(rows: list[dict], days: list[datetime.date], last_checked: str |
 </div>
 
 <p class="footnote">★ Favorites and filters are saved in your browser only — no cookies, no tracking, nothing sent to a server.</p>
+<p class="footer-links">
+  <a href="https://github.com/LaurensVR3/KartRadar" target="_blank">Source on GitHub</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/LaurensVR3/OpenLap" target="_blank">My other AI slop</a>
+</p>
 
 </div>
 
