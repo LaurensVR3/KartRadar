@@ -6,10 +6,16 @@
 # nothing needs to be listed here for those anymore. This file exists purely
 # for the day a track using a *different* booking platform gets added.
 #
-# provider: manual | ical
+# provider: manual | ical | woocommerce_variations | sms_timing
 #   manual needs only booking_url — renders as a link-out with no live data,
 #     useful as a placeholder until a real provider is written for it.
 #   ical needs: ics_url (+ optional event_meaning: busy|available)
+#   woocommerce_variations needs: product_url (+ optional date_attribute,
+#     default "attribute_datum"; locale, default "nl") — see
+#     app/providers/woocommerce_variations.py
+#   sms_timing needs: client_key, product_id, page_id (read these off
+#     GET https://booking-api7.sms-timing.com/api/settings/{client_key}) —
+#     see app/providers/sms_timing.py. Needs Playwright/Chromium in the image.
 #
 # Example:
 #   - name: "Some Other Track"
@@ -18,4 +24,21 @@
 #     booking: private
 #     booking_url: "https://example.com/book"
 
-tracks: []
+tracks:
+  - name: "Circuit de Landsard (eigen kart)"
+    note: "Trainingsdag, eigen kart"
+    provider: woocommerce_variations
+    booking: private
+    country: NL
+    product_url: "https://outdoorkarting.nl/product/trainingsdagkaart-karting-eindhoven/"
+    booking_url: "https://outdoorkarting.nl/product/trainingsdagkaart-karting-eindhoven/"
+
+  - name: "Circuit de Landsard (huurkart)"
+    note: "Huurkarts 4x10 min"
+    provider: sms_timing
+    booking: rental
+    country: NL
+    client_key: "kartingdelandsard"
+    product_id: "7611506"
+    page_id: "5738587"
+    booking_url: "https://booking.sms-timing.com/kartingdelandsard/book/product-list"
